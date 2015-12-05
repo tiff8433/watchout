@@ -45,13 +45,29 @@ var detectCollisions = function () {
       var separation = Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2));
       if (separation < 20) {
         d3.select(this).attr('fill','red');
+        //reset score
+        d3.selectAll('#currentScore').attr('score',0);
+        d3.selectAll('#currentScore').text(  d3.selectAll('#currentScore').attr('score')  );
         return true;
       }
       return false
     });
 }    
 
-setInterval(function () {detectCollisions();}, 50);
+setInterval(function () {
+  detectCollisions();
+  //increment score
+  d3.selectAll('#currentScore').data([1]).attr('score', function (d) {return (parseInt(d3.select(this).attr('score')) + parseInt(d));});
+  d3.selectAll('#currentScore').text(  d3.selectAll('#currentScore').attr('score')  );
+  var currentScore = parseInt(d3.selectAll('#currentScore').attr('score'));
+  var highScore = parseInt(d3.selectAll('#highScore').attr('highScore'));
+  console.log(currentScore + ', ' + highScore);
+  if (currentScore > highScore) {
+    highScore = currentScore;
+    d3.selectAll('#highScore').attr('highScore', highScore);
+    d3.selectAll('#highScore').text(highScore);
+  }
+}, 50);
 
 // .attr('cx', function(d){ return Math.floor(Math.random()*700); })
 
