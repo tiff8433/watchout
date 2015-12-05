@@ -4,8 +4,8 @@
 var moveEnemies = function () {  
     d3.selectAll('.enemy')
     .transition(1000)
-    .attr('cx',function (d) {return Math.floor(Math.random()*690);}) 
-    .attr('cy',function (d) {return Math.floor(Math.random()*440);})   
+    .attr('x',function (d) {return Math.floor(Math.random()*690);}) 
+    .attr('y',function (d) {return Math.floor(Math.random()*440);})   
 };
     
 setInterval(function () {moveEnemies();}, 1000);
@@ -40,8 +40,8 @@ var detectCollisions = function () {
            playerCenter, playerCenter, playerCenter, playerCenter,
            playerCenter, playerCenter])
     .attr('hasCollided', function (d) {
-      var xDif = d3.select(this).attr('cx') - d[0];
-      var yDif = d3.select(this).attr('cy') - d[1];
+      var xDif = d3.select(this).attr('x') - d[0];
+      var yDif = d3.select(this).attr('y') - d[1];
       var separation = Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2));
       if (separation < 20) {
         d3.select(this).attr('fill','red');
@@ -69,9 +69,9 @@ setInterval(function () {
   }
 }, 50);
 
-// .attr('cx', function(d){ return Math.floor(Math.random()*700); })
+// .attr('x', function(d){ return Math.floor(Math.random()*700); })
 
-// .attr('cy', function(d){ return Math.floor(Math.random()*450); });
+// .attr('y', function(d){ return Math.floor(Math.random()*450); });
   
 // };
 // setTimeout(function(){ game() }, 1000);
