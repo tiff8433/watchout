@@ -5,10 +5,27 @@ var moveEnemies = function () {
     d3.selectAll('.enemy')
     .transition(1000)
     .attr('x',function (d) {return Math.floor(Math.random()*690);}) 
-    .attr('y',function (d) {return Math.floor(Math.random()*440);})   
+    .attr('y',function (d) {return Math.floor(Math.random()*440);})  
 };
     
 setInterval(function () {moveEnemies();}, 1000);
+
+var updateCollision = function () {
+    //reset the hasCollided attribute for enemies
+    d3.selectAll('.enemy')
+      .attr('hasCollided', function (d) {
+        if (d3.select(this).attr('hasCollided') === 'true') {
+          console.log(d3.select(this).attr('hasCollided'));
+          //increment totalCollisions
+          d3.selectAll('#totalCollisions').data([1]).attr('collisions', function (d) {return (parseInt(d3.select(this).attr('collisions')) + parseInt(d));});
+          d3.selectAll('#totalCollisions').text(  d3.selectAll('#totalCollisions').attr('collisions')  );  
+        }
+      });
+    d3.selectAll('.enemy').data([false, false, false, false, false, false, false, false, false, false, false])
+      .attr('hasCollided', function(d) { return d});
+}
+    
+setInterval(function () {updateCollision();}, 100);
     
 var drag = d3.behavior.drag()
 .origin(function () {
@@ -61,17 +78,9 @@ setInterval(function () {
   d3.selectAll('#currentScore').text(  d3.selectAll('#currentScore').attr('score')  );
   var currentScore = parseInt(d3.selectAll('#currentScore').attr('score'));
   var highScore = parseInt(d3.selectAll('#highScore').attr('highScore'));
-  console.log(currentScore + ', ' + highScore);
   if (currentScore > highScore) {
     highScore = currentScore;
     d3.selectAll('#highScore').attr('highScore', highScore);
     d3.selectAll('#highScore').text(highScore);
   }
 }, 50);
-
-// .attr('x', function(d){ return Math.floor(Math.random()*700); })
-
-// .attr('y', function(d){ return Math.floor(Math.random()*450); });
-  
-// };
-// setTimeout(function(){ game() }, 1000);
